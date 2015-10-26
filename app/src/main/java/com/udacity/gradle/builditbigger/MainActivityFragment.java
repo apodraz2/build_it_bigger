@@ -2,6 +2,8 @@ package com.udacity.gradle.builditbigger;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
@@ -54,16 +56,26 @@ public class MainActivityFragment extends Fragment {
         mJokeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Intent intent = new Intent(getActivity(), JokeActivity.class);
-                //intent.putExtra("joke", joke);
-                //startActivity(intent);
 
-                EndpointsAsyncTask task = new EndpointsAsyncTask();
-                task.execute(new Pair<Context, String>(getActivity(), "Adam"));
-            }
+                if(isNetworkAvailable()) {
+
+                    EndpointsAsyncTask task = new EndpointsAsyncTask();
+                    task.execute(new Pair<Context, String>(getActivity(), "Adam"));
+                } else {
+                    Toast toast = Toast.makeText(getActivity(), "Please enable internet connectivity.", Toast.LENGTH_LONG);
+                    toast.show();
+                }
+                }
         });
 
         return root;
+    }
+
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 }
 

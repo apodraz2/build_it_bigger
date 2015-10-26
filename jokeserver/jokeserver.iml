@@ -28,5 +28,6 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="backend" exported="" />
+    <orderEntry type="library" exported="" name="jokeserver.jokeserver" level="project" />
   </component>
 </module>
